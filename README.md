@@ -1,6 +1,6 @@
 # Local Lambda
 
-The purpose of this repo is to reproduce as closely as possible the conditions of running inisde an AWS Lambda function container to faciliate testing and debugging.
+The purpose of this repo is to reproduce as closely as possible the conditions of running inside an AWS Lambda function container to facilitate testing and debugging.
 
 ## Install
 
