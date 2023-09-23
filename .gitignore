@@ -1,0 +1,5 @@
+.terraform*
+terraform.*
+firecracker.log
+vmlinux
+rootfs.img
