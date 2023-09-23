@@ -64,6 +64,15 @@ sudo curl -X PUT --unix-socket "${API_SOCKET}" \
     }" \
     "http://localhost/drives/rootfs"
 
+
+# Set rootfs
+sudo curl -X PUT --unix-socket "${API_SOCKET}" \
+    --data "{
+        \"mem_size_mib\": 512,
+        \"vcpu_count\": 1
+    }" \
+    "http://localhost/machine-config"
+
 # The IP address of a guest is derived from its MAC address with
 # `fcnet-setup.sh`, this has been pre-configured in the guest rootfs. It is
 # important that `TAP_IP` and `FC_MAC` match this.
