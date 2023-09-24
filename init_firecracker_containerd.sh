@@ -78,8 +78,6 @@ sudo tee /etc/containerd/firecracker-runtime.json <<EOF
   "log_fifo": "fc-logs.fifo",
   "log_levels": ["debug"],
   "metrics_fifo": "fc-metrics.fifo",
-  "kernel_image_path": "/var/lib/firecracker-containerd/runtime/hello-vmlinux.bin",
-  "root_drive": "/var/lib/firecracker-containerd/runtime/default-rootfs.img",
   "kernel_args": "console=ttyS0 noapic reboot=k panic=1 pci=off fastboot nomodules ro systemd.unified_cgroup_hierarchy=0 systemd.journald.forward_to_console systemd.unit=firecracker.target init=/sbin/overlay-init",
   "default_network_interfaces": [{
     "CNIConfig": {
