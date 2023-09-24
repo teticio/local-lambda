@@ -9,7 +9,7 @@ AWS runs Lambda functions inside a Firecracker VM, so you will need to install [
 ```bash
 git clone https://github.com/firecracker-microvm/firecracker-containerd.git
 cd firecracker-containerd
-sg docker -c 'make all firecracker'
+sg docker -c 'make all image firecracker'
 sudo make install install-firecracker
 sudo install -D -o root -g root -m755 -t /usr/local/bin ./_submodules/firecracker/build/cargo_target/x86_64-unknown-linux-musl/release/jailer
 ```
@@ -38,7 +38,7 @@ then, in another terminal, run the following command to start the VM:
 
 In the output from the first shell you will notice various attempts to get an API token from the magic 169.254.169.254 IP address which will, of course, fail as we are not running inside an AWS environment. After a few minutes, the login prompt will appear and you will be able to login as `root` with no password.
 
-To clean up, run the following command:
+To clean up the runtime environment, run the following command:
 
 ```bash
 sudo rm -rf /srv/jailer/*
@@ -46,10 +46,11 @@ sudo rm -rf /srv/jailer/*
 
 ## Run in firecracker-containerd
 
-If you want to run a Lambda function, then you will need to run the VM in `firtecracker-containerd`. To do this, patch the rootfs image as follows:
+If you want to run a Lambda function, then you will need to run the VM in `firtecracker-containerd`. For this you need to use a the rootfs image that was built for `firecracker-containerd`.
 
-```bash
-./patch_for_firecracker_containerd.sh
+```
+bash
+cp ../firecracker-containerd/tools/image-builder/root.fs default-rootfs.img
 ```
 
 and initialize the containerd environment with
@@ -93,7 +94,3 @@ To clean up, make sure you have deleted all the containers and images and then r
 sudo rm -rf /var/lib/firecracker-containerd/snapshotter/devmapper
 sudo rm -rf /var/lib/firecracker-containerd/runtime
 ```
-
-## TODO
-* overlay
-* Create lambda user with relevant permissions and run lambda handler

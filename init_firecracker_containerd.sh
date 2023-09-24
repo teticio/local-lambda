@@ -68,7 +68,7 @@ cd -
 # and uses a special init process to create a read-write overlay on top of the
 # read-only image.
 sudo mkdir -p /var/lib/firecracker-containerd/runtime
-sudo cp rootfs.img /var/lib/firecracker-containerd/runtime/default-rootfs.img
+sudo cp default-rootfs.img /var/lib/firecracker-containerd/runtime/default-rootfs.img
 sudo cp vmlinux /var/lib/firecracker-containerd/runtime/default-vmlinux.bin
 sudo mkdir -p /etc/containerd
 sudo tee /etc/containerd/firecracker-runtime.json <<EOF
