@@ -94,3 +94,6 @@ To clean up, make sure you have deleted all the containers and images and then r
 sudo rm -rf /var/lib/firecracker-containerd/snapshotter/devmapper
 sudo rm -rf /var/lib/firecracker-containerd/runtime
 ```
+
+## TODO
+* jailer for firecracker-containerd
