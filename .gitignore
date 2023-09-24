@@ -3,4 +3,5 @@ terraform.*
 firecracker.log
 vmlinux
 rootfs.img
+default-rootfs.img
 test_lambda.tar

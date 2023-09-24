@@ -50,7 +50,7 @@ If you want to run a Lambda function, then you will need to run the VM in `firte
 
 ```
 bash
-cp ../firecracker-containerd/tools/image-builder/root.fs default-rootfs.img
+cp ../firecracker-containerd/tools/image-builder/rootfs.img default-rootfs.img
 ```
 
 and initialize the containerd environment with
@@ -119,3 +119,4 @@ sudo rm -rf /var/lib/firecracker-containerd/runtime
 
 ## TODO
 * jailer for firecracker-containerd
+* invoke lambda function

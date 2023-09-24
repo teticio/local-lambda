@@ -26,7 +26,6 @@ EOF
 
 # Setup device mapper thin pool
 sudo mkdir -p /var/lib/firecracker-containerd/snapshotter/devmapper
-cd /var/lib/firecracker-containerd/snapshotter/devmapper
 DIR=/var/lib/firecracker-containerd/snapshotter/devmapper
 POOL=fc-dev-thinpool
 
@@ -61,7 +60,6 @@ echo "${THINP_TABLE}"
 if ! $(sudo dmsetup reload "${POOL}" --table "${THINP_TABLE}"); then
     sudo dmsetup create "${POOL}" --table "${THINP_TABLE}"
 fi
-cd -
 
 # Configure the aws.firecracker runtime
 # The long kernel command-line configures systemd inside the Debian-based image
