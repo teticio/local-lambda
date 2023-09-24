@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 sudo rm -rf /srv/jailer/*
 sudo mkdir -p /srv/jailer/firecracker/test/root

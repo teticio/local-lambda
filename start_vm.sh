@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 
 TAP_DEV="tap0"
 TAP_IP="172.16.0.1"
