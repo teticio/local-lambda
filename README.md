@@ -89,6 +89,28 @@ sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
      image remove docker.io/library/debian:latest
 ```
 
+To run a lambda function, we first have to build the image with Docker, save it locally and import it into `firecracker-containerd`:
+
+```bash
+docker build . -t test_lambda
+docker save -o test_lambda.tar test_lambda
+sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
+     images import test_lambda.tar \
+     --snapshotter devmapper
+```
+
+Then we can run the lambda function with
+
+```bash
+sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
+     run \
+     --snapshotter devmapper \
+     --runtime aws.firecracker \
+     --rm --tty --net-host \
+     docker.io/library/test_lambda:latest \
+     test
+```
+
 To clean up, make sure you have deleted all the containers and images and then remove the thinpool and runtime with
 ```bash
 sudo rm -rf /var/lib/firecracker-containerd/snapshotter/devmapper
