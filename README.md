@@ -14,6 +14,14 @@ sudo make install install-firecracker
 sudo install -D -o root -g root -m755 -t /usr/local/bin ./_submodules/firecracker/build/cargo_target/x86_64-unknown-linux-musl/release/jailer
 ```
 
+You may need to add the following lines to `/etc/cni/conf.d/fcnet.conflist` and remove the reference to `\etc\resolv.conf` if your host is using a systemd resolver in order for DNS lookup to work:
+
+```json
+      "dns": {
+        "nameservers": [ "8.8.8.8" ]
+      }
+```
+
 In order to extract the Linux kernel and rootfs image from the AMI AWS uses for Lambda, you will need to install [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli) and run the script `build_kernel_rootfs.sh`. This will spin up an EC2, build the kernel from source, attach a snapshot of the rootfs and create a `rootfs.img`. It will also set the root password to be empty and setup the `eth0` to point to the IP gateway `172.16.0.1` with static IP address `172.16.0.2`.
 
 ## Run in Firecracker
