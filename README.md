@@ -107,7 +107,7 @@ sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
      --snapshotter devmapper
 ```
 
-Then we can run the lambda function with
+Then we can run the lambda function handler with
 
 ```bash
 sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
@@ -152,5 +152,6 @@ sudo losetup -d /dev/loopX
 ```
 
 ## TODO
-* jailer for firecracker-containerd
+* jailer for firecracker-containerd - why jailer=noop?
+* memory limits
 * read only filesystem except for /tmp
