@@ -4,13 +4,13 @@ The purpose of this repo is to reproduce as closely as possible the conditions o
 
 ## Install
 
-AWS runs Lambda functions inside a Firecracker VM, so you will need to install [Firecracker](https://github.com/firecracker-microvm/firecracker/tree/main). As we are going to be using `firecracker-containerd`, the easiest way to install everything we need (providing you already have [Docker](https://docs.docker.com/engine/install/) installed) is by running the following commands:
+AWS runs Lambda functions inside a Firecracker VM, so you will need to install [Firecracker](https://github.com/firecracker-microvm/firecracker/tree/main). As we are going to be using `firecracker-containerd`, the easiest way to install everything we need (providing you already have [Docker](https://docs.docker.com/engine/install/) installed) is by running the following commands from the [quick start guide](https://github.com/firecracker-microvm/firecracker-containerd/blob/main/docs/getting-started.md):
 
 ```bash
 git clone https://github.com/firecracker-microvm/firecracker-containerd.git
 cd firecracker-containerd
 sg docker -c 'make all image firecracker'
-sudo make install install-firecracker
+sudo make install install-firecracker demo-network
 sudo install -D -o root -g root -m755 -t /usr/local/bin ./_submodules/firecracker/build/cargo_target/x86_64-unknown-linux-musl/release/jailer
 ```
 
@@ -67,7 +67,7 @@ and initialize the containerd environment with
 ./init_firecracker_containerd.sh
 ```
 
-This will create a 10G thinpool in `/var/lib/firecracker-containerd/snapshotter/devmapper`. Then start up `firecracker-containerd` with the following command:
+This will create a 10G thinpool in `/var/lib/firecracker-containerd/snapshotter/devmapper`. You may want to adjust the sizes of the thinpool and the base image. Then start up `firecracker-containerd` with the following command:
 
 ```bash
 sudo firecracker-containerd --config /etc/firecracker-containerd/config.toml
@@ -119,12 +119,38 @@ sudo firecracker-ctr --address /run/firecracker-containerd/containerd.sock \
      test
 ```
 
+To invoke the Lambda function run this on the host:
+
+```bash
+ip=$(sudo cat /var/lib/cni/networks/fcnet/last_reserved_ip.0)
+curl -XPOST "http://$ip:8080/2015-03-31/functions/function/invocations" -d '{}'
+```
+
 To clean up, make sure you have deleted all the containers and images and then remove the thinpool and runtime with
+
 ```bash
 sudo rm -rf /var/lib/firecracker-containerd/snapshotter/devmapper
 sudo rm -rf /var/lib/firecracker-containerd/runtime
 ```
 
+You may also want to deactivate the thinpool
+
+```bash
+sudo dmsetup remove fc-dev-thinpool
+```
+
+and remove the loopback devices
+
+```bash
+sudo losetup | grep firecracker
+```
+
+with
+
+```bash
+sudo losetup -d /dev/loopX
+```
+
 ## TODO
 * jailer for firecracker-containerd
-* invoke lambda function
+* read only filesystem except for /tmp

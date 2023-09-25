@@ -17,7 +17,7 @@ state = "/run/firecracker-containerd"
 [plugins]
   [plugins."io.containerd.snapshotter.v1.devmapper"]
     pool_name = "fc-dev-thinpool"
-    base_image_size = "2GB"
+    base_image_size = "5GB"
     root_path = "/var/lib/firecracker-containerd/snapshotter/devmapper"
 
 [debug]
